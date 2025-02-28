@@ -2,7 +2,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="ewa_store"
+        android:label="Ewa Ecommerce"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/NormalTheme">  <!-- Set NormalTheme here -->

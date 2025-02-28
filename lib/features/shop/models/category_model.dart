@@ -1,5 +1,3 @@
-import 'package:ewa_store/utils/constants/api_constants.dart';
-
 class CategoryModel {
   final String id;
   final String name;
@@ -19,19 +17,10 @@ class CategoryModel {
 
   // Factory constructor to create a Category from JSON
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
-    String originalImageUrl = json['image'] ?? '';
-    String newImageBaseUrl = '$tempURL/image/category/';
-
-    // Extract the filename from the original image URL if present
-    String imageFilename = originalImageUrl.split('/').last;
-
-    String updatedImageUrl = imageFilename.isNotEmpty
-        ? '$newImageBaseUrl$imageFilename'
-        : originalImageUrl;
     return CategoryModel(
       id: json['_id'] ?? '',
       name: json['name'] ?? '',
-      imageUrl: updatedImageUrl,
+      imageUrl: json['image'],
     );
   }
 }
