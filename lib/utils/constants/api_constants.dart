@@ -3,8 +3,8 @@
 // Example
 
 // URL For Emulator
-const String serverURL = "https://thankful-slightly-warthog.ngrok-free.app/api/v1";
-const String tempURL = "https://thankful-slightly-warthog.ngrok-free.app";
+const String serverURL = "https://ecom.theprimedesigns.com/api/v1";
+const String tempURL = "https://ecom.theprimedesigns.com";
 
 // URL For Rest of the Devices
 // const String serverURL = "http://localhost:3000/api/v1";
