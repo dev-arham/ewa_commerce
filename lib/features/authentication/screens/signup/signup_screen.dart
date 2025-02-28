@@ -1,5 +1,3 @@
-import 'package:ewa_store/common/widgets/login_signup/form_divider.dart';
-import 'package:ewa_store/common/widgets/login_signup/social_buttons.dart';
 import 'package:ewa_store/features/authentication/screens/signup/widgets/signup_form.dart';
 import 'package:ewa_store/utils/constants/sizes.dart';
 import 'package:ewa_store/utils/constants/text_strings.dart';
@@ -25,12 +23,6 @@ class SignupScreen extends StatelessWidget {
               const SizedBox(height: TSizes.spaceBtwSections),
               const SignupForm(),
               const SizedBox(height: TSizes.spaceBtwSections),
-              FormDivider(
-                text: TTexts.orSignUpWith.toUpperCase(),
-              ),
-              const SizedBox(height: TSizes.spaceBtwItems),
-              const SocialButtons(),
-              const SizedBox(height: TSizes.spaceBtwItems),
             ],
           ),
         ),

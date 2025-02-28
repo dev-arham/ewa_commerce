@@ -1,5 +1,4 @@
 import 'package:ewa_store/features/authentication/controllers/login/login_controller.dart';
-import 'package:ewa_store/features/authentication/screens/password_config/forgot_password.dart';
 import 'package:ewa_store/features/authentication/screens/signup/signup_screen.dart';
 import 'package:ewa_store/utils/constants/sizes.dart';
 import 'package:ewa_store/utils/constants/text_strings.dart';
@@ -75,10 +74,6 @@ class LoginForm extends StatelessWidget {
                     ),
                     const Text(TTexts.rememberMe),
                   ],
-                ),
-                TextButton(
-                  onPressed: () => Get.to(() => const ForgotPassword()),
-                  child: const Text(TTexts.forgetPassword),
                 ),
               ],
             ),

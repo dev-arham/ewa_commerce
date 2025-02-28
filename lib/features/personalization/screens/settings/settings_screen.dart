@@ -5,7 +5,6 @@ import 'package:ewa_store/common/widgets/list_tiles/user_profile_tile.dart';
 import 'package:ewa_store/common/widgets/texts/section_heading.dart';
 import 'package:ewa_store/data/repositories/authentication/authentication_repository.dart';
 import 'package:ewa_store/features/personalization/controllers/user_controller.dart';
-import 'package:ewa_store/features/personalization/screens/profile/widgets/change_name.dart';
 import 'package:ewa_store/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:ewa_store/features/shop/screens/cart/cart_screen.dart';
 import 'package:ewa_store/features/shop/screens/help_support/help_support_screen.dart';
@@ -57,7 +56,8 @@ class SettingsScreen extends StatelessWidget {
                   ProfileMenu(
                     title: 'Full Name',
                     value: controller.user.value.fullName,
-                    onPressed: () => Get.to(() => const ChangeName()),
+                    onPressed: () {},
+                    icon: Iconsax.user,
                   ),
                   ProfileMenu(
                     title: 'Username',

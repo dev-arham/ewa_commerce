@@ -3,7 +3,6 @@ import 'package:ewa_store/common/widgets/images/circular_image.dart';
 import 'package:ewa_store/common/widgets/shimmer_box/shimmer_effect.dart';
 import 'package:ewa_store/common/widgets/texts/section_heading.dart';
 import 'package:ewa_store/features/personalization/controllers/user_controller.dart';
-import 'package:ewa_store/features/personalization/screens/profile/widgets/change_name.dart';
 import 'package:ewa_store/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:ewa_store/utils/constants/colors.dart';
 import 'package:ewa_store/utils/constants/sizes.dart';
@@ -86,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
               ProfileMenu(
                 title: 'Full Name',
                 value: controller.user.value.fullName,
-                onPressed: () => Get.to(() => const ChangeName()),
+                onPressed: (){},
               ),
               ProfileMenu(
                 title: 'Username',
