@@ -8,6 +8,7 @@ import 'package:ewa_store/features/personalization/controllers/user_controller.d
 import 'package:ewa_store/features/personalization/screens/profile/widgets/change_name.dart';
 import 'package:ewa_store/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:ewa_store/features/shop/screens/cart/cart_screen.dart';
+import 'package:ewa_store/features/shop/screens/help_support/help_support_screen.dart';
 import 'package:ewa_store/features/shop/screens/order/order_screen.dart';
 import 'package:ewa_store/utils/constants/colors.dart';
 import 'package:ewa_store/utils/constants/sizes.dart';
@@ -141,6 +142,7 @@ class SettingsScreen extends StatelessWidget {
                     title: 'Help & Support',
                     subtitle: 'In-progress, delivered and cancelled orders',
                     icon: Iconsax.support4,
+                    onTap: () => Get.to(() => const HelpSupportScreen()),
                   ),
                   // SettingsMenuTile(
                   //   title: 'Notifications',

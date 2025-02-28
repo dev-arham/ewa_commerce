@@ -7,6 +7,7 @@ import 'package:ewa_store/features/shop/models/coupon_model.dart';
 import 'package:ewa_store/navigation_menu.dart';
 import 'package:ewa_store/utils/constants/api_constants.dart';
 import 'package:ewa_store/utils/constants/image_strings.dart';
+import 'package:ewa_store/utils/local_storage/storage_utility.dart';
 import 'package:ewa_store/utils/popups/loaders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -35,6 +36,22 @@ class CheckoutController extends GetxController {
   final countryController = TextEditingController();
 
   final addressFormKey = GlobalKey<FormState>();
+
+  CheckoutController() {
+    getUserAddress();
+  }
+
+  getUserAddress() {
+    streetController.text =
+        TLocalStorage.instance().readData('user_street') ?? '';
+    cityController.text = TLocalStorage.instance().readData('user_city') ?? '';
+    postalCodeController.text =
+        TLocalStorage.instance().readData('user_postal_code') ?? '';
+    stateController.text =
+        TLocalStorage.instance().readData('user_state') ?? '';
+    countryController.text =
+        TLocalStorage.instance().readData('user_country') ?? '';
+  }
 
   void calculateTotalPrice(
     double subTotal,
@@ -114,7 +131,11 @@ class CheckoutController extends GetxController {
     if (paymentMethod.value == 'cod') {
       placeOrder();
     } else if (paymentMethod.value == 'prepaid') {
-      await stripePayment(operation: placeOrder());
+      await stripePayment(
+        operation: () async {
+          await placeOrder();
+        },
+      );
     }
   }
 
@@ -133,7 +154,7 @@ class CheckoutController extends GetxController {
         'country': countryController.text,
       };
       final totalData = {
-        'subTotal': subTotal.value,
+        'subtotal': subTotal.value,
         'discount': promoDiscount.value,
         'total': totalPrice.value,
       };
@@ -161,6 +182,17 @@ class CheckoutController extends GetxController {
             subTitle: "Your order has been placed successfully",
             onPressed: () => Get.offAll(() => NavigationMenu()),
           ),
+        );
+        TLocalStorage.instance().saveData('user_street', streetController.text);
+        TLocalStorage.instance().saveData('user_city', cityController.text);
+        TLocalStorage.instance().saveData(
+          'user_postal_code',
+          postalCodeController.text,
+        );
+        TLocalStorage.instance().saveData('user_state', stateController.text);
+        TLocalStorage.instance().saveData(
+          'user_country',
+          countryController.text,
         );
       }
     } catch (e) {
@@ -230,7 +262,7 @@ class CheckoutController extends GetxController {
                 title: 'Payment Successful',
                 message: 'Your payment has been processed successfully',
               );
-              operation;
+              operation();
             })
             .onError((error, stackTrace) {
               if (error is StripeException) {
@@ -238,13 +270,11 @@ class CheckoutController extends GetxController {
                   title: 'Payment Failed',
                   message: error.error.localizedMessage,
                 );
-                print('StripeException: ${error.error.localizedMessage}');
               } else {
                 TLoaders.errorSnackBar(
                   title: 'Payment Failed',
                   message: 'Something went wrong: $error',
                 );
-                print('Error: $error');
               }
             });
       }
@@ -253,7 +283,6 @@ class CheckoutController extends GetxController {
         title: 'Error',
         message: 'Something went wrong: $e',
       );
-      print('Error: $e');
     }
   }
 }

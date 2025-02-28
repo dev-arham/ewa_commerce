@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:ewa_store/features/shop/models/brand_model.dart';
 import 'package:ewa_store/features/shop/models/category_model.dart';
+import 'package:ewa_store/features/shop/models/order_model.dart';
 import 'package:ewa_store/features/shop/models/porduct_model.dart';
 import 'package:ewa_store/features/shop/models/poster_model.dart';
 import 'package:ewa_store/features/shop/models/sub_category_model.dart';
@@ -144,6 +145,22 @@ class DataRepository extends GetxController {
         }
       } else {
         throw "Unable to fetch products. Status code: ${response.statusCode}";
+      }
+    } catch (e) {
+      log("Error: $e");
+      throw "Something went wrong. Please try again.";
+    }
+  }
+
+  Future<List<OrderModel>> fetchAllOrders() async {
+    try {
+      final response = await GetConnect().get('$serverURL/orders');
+      if (response.isOk) {
+        final data = response.body['data'] as List;
+        final allOrders = data.map((e) => OrderModel.fromJson(e)).toList();
+        return allOrders;
+      } else {
+        throw "Data is not in expected format.";
       }
     } catch (e) {
       log("Error: $e");

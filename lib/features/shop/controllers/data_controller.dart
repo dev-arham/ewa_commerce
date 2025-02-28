@@ -1,6 +1,7 @@
 import 'package:ewa_store/data/repositories/data/data_repository.dart';
 import 'package:ewa_store/features/shop/models/brand_model.dart';
 import 'package:ewa_store/features/shop/models/category_model.dart';
+import 'package:ewa_store/features/shop/models/order_model.dart';
 import 'package:ewa_store/features/shop/models/porduct_model.dart';
 import 'package:ewa_store/features/shop/models/poster_model.dart';
 import 'package:ewa_store/features/shop/models/sub_category_model.dart';
@@ -14,13 +15,14 @@ class DataController extends GetxController {
 
   final categoryLoading = false.obs;
   final productLoading = false.obs;
+  final ordersLoading = false.obs;
   final wishlistProductLoading = false.obs;
   RxList<CategoryModel> allCategories = <CategoryModel>[].obs;
   RxList<SubCategoryModel> allSubCategories = <SubCategoryModel>[].obs;
   RxList<BrandModel> allBrands = <BrandModel>[].obs;
   RxList<PosterModel> allPosters = <PosterModel>[].obs;
   RxList<ProductModel> allProducts = <ProductModel>[].obs;
-  RxList<ProductModel> wishlistProducts = <ProductModel>[].obs;
+  RxList<OrderModel> allOrders = <OrderModel>[].obs;
 
 
   DataController() {
@@ -29,7 +31,7 @@ class DataController extends GetxController {
     fetchBrands();
     fetchPosters();
     fetchProducts();
-    fetchWishlistProducts();
+    fetchOrders();
   }
 
   Future<void> fetchCategories() async {
@@ -82,13 +84,18 @@ class DataController extends GetxController {
     }
   }
 
-  Future<void> fetchWishlistProducts() async {
+  Future<void> fetchOrders({bool showSnack = false}) async {
     try {
-      wishlistProductLoading.value = true;
-      
-      wishlistProductLoading.value = false;
+      ordersLoading.value = true;
+      final orders = await _categoryRepository.fetchAllOrders();
+      allOrders.assignAll(orders);
+      ordersLoading.value = false;
+      if (showSnack) {
+        TLoaders.successSnackBar(title: "Orders Fetched Successfully");
+      }
     } catch (e) {
       TLoaders.errorSnackBar(title: "Oh Snap!", message: e.toString());
     }
   }
+  
 }
