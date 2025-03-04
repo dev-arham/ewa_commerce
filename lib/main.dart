@@ -10,7 +10,6 @@ Future<void> main() async {
       WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  
   Get.put(AuthenticationRepository());
   runApp(const App());
 }

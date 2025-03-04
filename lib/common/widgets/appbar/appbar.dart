@@ -27,17 +27,22 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
       child: AppBar(
         automaticallyImplyLeading: false,
-        leading: showBackArrow
-            ? IconButton(
-                icon: Icon(
-                  leadingIcon ?? Iconsax.arrow_left,
-                  color: THelperFunctions.isDarkMode(context)
-                      ? Colors.white
-                      : Colors.black,
-                ),
-                onPressed: onLeadingTap ?? () => Get.back(),
-              )
-            : null,
+        leading:
+            showBackArrow
+                ? IconButton(
+                  style: IconButton.styleFrom(
+                    backgroundColor:
+                        THelperFunctions.isDarkMode(context)
+                            ? Colors.white
+                            : Colors.transparent,
+                  ),
+                  icon: Icon(
+                    leadingIcon ?? Iconsax.arrow_left,
+                    color: Colors.black,
+                  ),
+                  onPressed: onLeadingTap ?? () => Get.back(),
+                )
+                : null,
         title: title,
         actions: actions,
       ),

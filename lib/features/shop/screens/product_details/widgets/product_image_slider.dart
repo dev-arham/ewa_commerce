@@ -79,6 +79,7 @@ class ProductImageSlider extends StatelessWidget {
                 FavoriteIcon(
                   productId: productId,
                 ),
+                
               ],
             )
           ],

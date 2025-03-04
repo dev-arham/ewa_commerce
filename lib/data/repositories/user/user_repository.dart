@@ -11,15 +11,16 @@ class UserRepository extends GetxController {
 
   Future<UserModel> getUserRecord() async {
     try {
-      final response = await GetConnect().get("$serverURL/users/current-user",
-          headers: {
-            "Authorization": "Bearer ${dataStorage.read('accessToken')}"
-          });
+      final response = await GetConnect().get(
+        "$serverURL/users/current-user",
+        headers: {
+          "Authorization": "Bearer ${await dataStorage.read('accessToken')}",
+        },
+      );
       return UserModel.fromJson(response.body['data']);
     } catch (e) {
       log("Error: $e");
       throw "Something went wrong. Please try again.";
     }
   }
-  
 }

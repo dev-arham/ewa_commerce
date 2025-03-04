@@ -1,3 +1,4 @@
+import 'package:ewa_store/common/widgets/appbar/appbar.dart';
 import 'package:ewa_store/features/shop/screens/help_support/widgets/contact_us_screen.dart';
 import 'package:ewa_store/features/shop/screens/help_support/widgets/privacy_policy.dart';
 import 'package:ewa_store/features/shop/screens/help_support/widgets/terms_conditions.dart';
@@ -15,7 +16,8 @@ class HelpSupportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppbar(
+        showBackArrow: true,
         title: Text(
           'Help & Support',
           style: Theme.of(context).textTheme.headlineSmall,

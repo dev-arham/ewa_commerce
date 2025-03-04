@@ -7,10 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CartItems extends StatelessWidget {
-  const CartItems({
-    super.key,
-    this.showAddRemoveButton = true,
-  });
+  const CartItems({super.key, this.showAddRemoveButton = true});
 
   final bool showAddRemoveButton;
 
@@ -19,44 +16,41 @@ class CartItems extends StatelessWidget {
     final controller = CartController.to;
     return Obx(
       () => ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: controller.cartItems.length,
-        separatorBuilder: (_, __) => const SizedBox(
-          height: TSizes.spaceBtwSections,
-        ),
-        itemBuilder: (_, index) => Obx(() {
-          final item = controller.cartItems[index];
-          return Column(
-            children: [
-              CartItem(
-                item: item,
-              ),
-              if (showAddRemoveButton)
-                const SizedBox(
-                  height: TSizes.spaceBtwItems,
-                ),
-              if (showAddRemoveButton)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+        separatorBuilder:
+            (_, __) => const SizedBox(height: TSizes.spaceBtwSections),
+        itemBuilder:
+            (_, index) => Obx(() {
+              final item = controller.cartItems[index];
+              return Column(
+                children: [
+                  CartItem(item: item),
+                  if (showAddRemoveButton)
+                    const SizedBox(height: TSizes.spaceBtwItems),
+                  if (showAddRemoveButton)
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const SizedBox(
-                          width: 70,
+                        Row(
+                          children: [
+                            const SizedBox(width: 70),
+                            ProductQuantityWithAddRemoveButton(
+                              quantity: item.quantity,
+                              add: () => controller.addOneToCart(item),
+                              remove: () => controller.removeOneFromCart(item),
+                            ),
+                          ],
                         ),
-                        ProductQuantityWithAddRemoveButton(
-                          quantity: item.quantity,
-                          add: () => controller.addOneToCart(item),
-                          remove: () => controller.removeOneFromCart(item),
+                        ProductPriceText(
+                          price: (item.price * item.quantity).toString(),
                         ),
                       ],
                     ),
-                    ProductPriceText(price: (item.price * item.quantity).toString()),
-                  ],
-                )
-            ],
-          );
-        }),
+                ],
+              );
+            }),
       ),
     );
   }

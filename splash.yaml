@@ -9,6 +9,3 @@ flutter_native_splash:
     color_dark: "#000000"
     image: assets/logos/ewa_logo.jpg
     image_dark: assets/logos/ewa_logo.jpg
-
-
-  web: false

@@ -1,7 +1,9 @@
 import 'package:ewa_store/bindings/general_bindings.dart';
 import 'package:ewa_store/utils/constants/colors.dart';
+import 'package:ewa_store/utils/constants/image_strings.dart';
+import 'package:ewa_store/utils/loaders/animation_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
 import 'package:ewa_store/utils/constants/text_strings.dart';
 import 'package:ewa_store/utils/theme/theme.dart';
 
@@ -20,8 +22,9 @@ class App extends StatelessWidget {
       home: const Scaffold(
         backgroundColor: TColors.black,
         body: Center(
-          child: CircularProgressIndicator(
-            color: TColors.primary,
+          child: TAnimationLoaderWidget(
+            text: 'Loading...',
+            animation: TImages.loaderAnimation,
           ),
         ),
       ),

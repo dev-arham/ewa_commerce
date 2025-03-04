@@ -26,31 +26,46 @@ class WishlistScreen extends StatelessWidget {
           CircularIcon(
             icon: Iconsax.add,
             onPressed: () => NavigationController.to.selectedIndex.value = 1,
-          )
+          ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(TSizes.defaultSpace),
-          child: Column(
-            children: [
-              Obx(
-                () => wishlistController.productLoading.value
-                    ? GridLayout(
-                        mainAxisExtent: 260,
-                        itemCount: 4,
-                        itemBuilder: (_, index) => const ProductShimmer(),
-                      )
-                    : GridLayout(
-                        itemCount: wishlistController.wishlistProducts.length,
-                        itemBuilder: (_, index) => ProductCardVertical(
-                          product: wishlistController.wishlistProducts[index],
+      body: Obx(
+        () =>
+            wishlistController.wishlistProducts.isEmpty
+                ? const Center(
+                  child: Text('Wishlist is empty, try adding some products'),
+                )
+                : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(TSizes.defaultSpace),
+                    child: Column(
+                      children: [
+                        Obx(
+                          () =>
+                              wishlistController.productLoading.value
+                                  ? GridLayout(
+                                    mainAxisExtent: 260,
+                                    itemCount: 4,
+                                    itemBuilder:
+                                        (_, index) => const ProductShimmer(),
+                                  )
+                                  : GridLayout(
+                                    itemCount:
+                                        wishlistController
+                                            .wishlistProducts
+                                            .length,
+                                    itemBuilder:
+                                        (_, index) => ProductCardVertical(
+                                          product:
+                                              wishlistController
+                                                  .wishlistProducts[index],
+                                        ),
+                                  ),
                         ),
-                      ),
-              ),
-            ],
-          ),
-        ),
+                      ],
+                    ),
+                  ),
+                ),
       ),
     );
   }

@@ -56,9 +56,8 @@ class LoginController extends GetxController {
         username: email.text.trim(),
       );
 
-      TFullScreenLoader.stopLoading();
-
       AuthenticationRepository.to.screenRedirect();
+      TFullScreenLoader.stopLoading();
     } catch (e) {
       TFullScreenLoader.stopLoading();
       TLoaders.errorSnackBar(

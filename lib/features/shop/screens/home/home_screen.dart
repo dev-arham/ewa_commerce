@@ -58,7 +58,12 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.all(TSizes.defaultSpace),
               child: Column(
                 children: [
-                  const PromoSlider(),
+                  Obx(
+                    () =>
+                        dataController.allPosters.isEmpty
+                            ? const SizedBox()
+                            : const PromoSlider(),
+                  ),
                   const SizedBox(height: TSizes.spaceBtwSections),
                   SectionHeading(
                     title: 'Popular Products',
@@ -67,7 +72,6 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceBtwItems),
                   Obx(
                     () =>
-                    
                         dataController.productLoading.value
                             ? GridLayout(
                               itemCount: 4,
@@ -76,9 +80,9 @@ class HomeScreen extends StatelessWidget {
                             )
                             : GridLayout(
                               itemCount:
-                                  dataController.allProducts.length < 6
+                                  dataController.allProducts.length < 8
                                       ? dataController.allProducts.length
-                                      : 6,
+                                      : 8,
                               itemBuilder:
                                   (_, index) => ProductCardVertical(
                                     product: dataController.allProducts[index],

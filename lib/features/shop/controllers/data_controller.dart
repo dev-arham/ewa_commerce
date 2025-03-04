@@ -24,7 +24,6 @@ class DataController extends GetxController {
   RxList<ProductModel> allProducts = <ProductModel>[].obs;
   RxList<OrderModel> allOrders = <OrderModel>[].obs;
 
-
   DataController() {
     fetchCategories();
     fetchSubCategories();
@@ -97,5 +96,4 @@ class DataController extends GetxController {
       TLoaders.errorSnackBar(title: "Oh Snap!", message: e.toString());
     }
   }
-  
 }

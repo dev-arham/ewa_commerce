@@ -54,43 +54,36 @@ class ContactUsScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
-            Card(
-              elevation: 0,
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                tileColor:
-                    isDark ? TColors.darkContainer : TColors.lightContainer,
-                onTap: () {},
-                title: const Text('Email'),
-                leading: Icon(Iconsax.message),
+            ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
+              tileColor:
+                  isDark ? TColors.darkContainer : TColors.lightContainer,
+              onTap: () {},
+              title: const Text('info@easywayagencies.com'),
+              leading: Icon(Iconsax.message),
             ),
-            Card(
-              elevation: 0,
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                tileColor:
-                    isDark ? TColors.darkContainer : TColors.lightContainer,
-                onTap: () {},
-                title: const Text('Phone'),
-                leading: Icon(Iconsax.call),
+            const SizedBox(height: TSizes.spaceBtwItems),
+            ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
+              tileColor:
+                  isDark ? TColors.darkContainer : TColors.lightContainer,
+              onTap: () {},
+              title: const Text('03XXXXXXXXX'),
+              leading: Icon(Iconsax.call),
             ),
-            Card(
-              elevation: 0,
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                tileColor:
-                    isDark ? TColors.darkContainer : TColors.lightContainer,
-                title: const Text('Location'),
-                leading: Icon(Iconsax.location),
+            const SizedBox(height: TSizes.spaceBtwItems),
+            ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
+              tileColor:
+                  isDark ? TColors.darkContainer : TColors.lightContainer,
+              title: const Text('Karachi, Pakistan'),
+              leading: Icon(Iconsax.location),
             ),
           ],
         ),

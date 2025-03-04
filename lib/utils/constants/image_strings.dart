@@ -61,6 +61,8 @@ class TImages {
       "assets/images/animations/141594-animation-of-docer.json";
   static const String emptyCartAnimation =
       'assets/images/animations/lady-adding-product-in-cart-animation.json';
+  static const String loaderAnimation =
+      "assets/images/animations/141397-loading-juggle.json";
 
   // -- OnBoarding Texts
   static const String onBoardingImage1 =

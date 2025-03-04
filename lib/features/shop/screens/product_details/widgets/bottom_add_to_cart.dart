@@ -43,20 +43,18 @@ class BottomAddToCart extends StatelessWidget {
                   width: 40,
                   height: 40,
                   color: TColors.white,
-                  onPressed: () => controller.productQuantity < 1
-                      ? null
-                      : controller.productQuantity.value--,
+                  onPressed:
+                      () =>
+                          controller.productQuantity < 1
+                              ? null
+                              : controller.productQuantity.value--,
                 ),
-                const SizedBox(
-                  width: TSizes.spaceBtwItems,
-                ),
+                const SizedBox(width: TSizes.spaceBtwItems),
                 Text(
-                  controller.productQuantity.toString(),
+                  "${controller.productQuantity.value}",
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
-                const SizedBox(
-                  width: TSizes.spaceBtwItems,
-                ),
+                const SizedBox(width: TSizes.spaceBtwItems),
                 CircularIcon(
                   icon: Iconsax.add,
                   backgroundColor: TColors.black,
@@ -72,12 +70,17 @@ class BottomAddToCart extends StatelessWidget {
                 padding: const EdgeInsets.all(TSizes.md),
                 backgroundColor: TColors.black,
               ),
-              onPressed: () => controller.addToCart(product),
+              onPressed: () {
+                controller.productQuantity < 1
+                    ? null
+                    : Scaffold.of(context).openDrawer();
+                controller.addToCart(product);
+              },
               child: Text(
                 "Add to Cart",
-                style: Theme.of(context).textTheme.bodyLarge!.apply(
-                      color: TColors.white,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyLarge!.apply(color: TColors.white),
               ),
             ),
           ],

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:ewa_store/features/authentication/screens/login/login.dart';
 import 'package:ewa_store/features/authentication/screens/onboarding/onboarding.dart';
+import 'package:ewa_store/features/personalization/models/user_model.dart';
 import 'package:ewa_store/navigation_menu.dart';
 import 'package:ewa_store/utils/constants/api_constants.dart';
 import 'package:ewa_store/utils/local_storage/storage_utility.dart';
@@ -22,17 +23,19 @@ class AuthenticationRepository extends GetxController {
 
   screenRedirect() async {
     if (deviceStorage.read('accessToken') != null) {
-      await verifyUserWithAccessToken().then((response) async {
-        if (response.isOk) {
-          final userId = response.body['data']['_id'];
-          await TLocalStorage.init(userId);
-          Get.offAll(() => const NavigationMenu());
-        } else {
-          await regenerateAccessToken();
-        }
-      }).catchError((e) {
-        log("Error: $e");
-      });
+      final token = deviceStorage.read('accessToken');
+      await currentUser(token: token)
+          .then((user) async {
+            if (user.id.isNotEmpty) {
+              await TLocalStorage.init(user.id);
+              Get.offAll(() => const NavigationMenu());
+            } else {
+              throw "User not found";
+            }
+          })
+          .catchError((e) {
+            log("Error: $e");
+          });
     } else {
       deviceStorage.writeIfNull("isFirstTime", true);
       deviceStorage.read("isFirstTime") != true
@@ -51,29 +54,37 @@ class AuthenticationRepository extends GetxController {
     required String phoneNumber,
   }) async {
     try {
-      final response = await GetConnect().post("$serverURL/users/register", {
+      final userData = {
         "firstName": firstName,
         "lastName": lastName,
         "username": username,
         "email": email,
         "password": password,
         "phone": phoneNumber,
-      });
+      };
+      final response = await GetConnect().post(
+        "$serverURL/users/register",
+        userData,
+      );
       if (response.isOk) {
         return;
       } else {
+        log("response is not okay");
         throw response.body['message'];
       }
     } catch (e) {
       log("Error: $e");
-      throw "Something went wrong. Please try again.";
+      throw "Something went wrong. $e";
     }
   }
 
   //Login User with Email and Password
 
-  Future<void> loginUser(
-      {String? email, required String password, String? username}) async {
+  Future<void> loginUser({
+    String? email,
+    required String password,
+    String? username,
+  }) async {
     try {
       final response = await GetConnect().post("$serverURL/users/login", {
         "email": email,
@@ -81,11 +92,38 @@ class AuthenticationRepository extends GetxController {
         "password": password,
       });
       if (response.isOk) {
-        deviceStorage.write('accessToken', response.body['accessToken']);
-        deviceStorage.write('refreshToken', response.body['refreshToken']);
+        await deviceStorage.write('accessToken', response.body['accessToken']);
+        await deviceStorage.write(
+          'refreshToken',
+          response.body['refreshToken'],
+        );
       } else {
         TLoaders.errorSnackBar(
-            title: 'Error', message: response.body['message']);
+          title: 'Error',
+          message: response.body['message'],
+        );
+      }
+    } catch (e) {
+      log("Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<UserModel> currentUser({String? token}) async {
+    try {
+      final response = await GetConnect().get(
+        "$serverURL/users/current-user",
+        headers: {"Authorization": "Bearer $token"},
+      );
+      if (response.isOk) {
+        final data = response.body['data'] as Map<String, dynamic>;
+        return UserModel.fromJson(data);
+      } else {
+        TLoaders.errorSnackBar(
+          title: 'Error',
+          message: response.body['message'],
+        );
+        return UserModel.empty();
       }
     } catch (e) {
       log("Error: $e");
@@ -99,10 +137,12 @@ class AuthenticationRepository extends GetxController {
 
   Future<Response> verifyUserWithAccessToken() async {
     try {
-      final response = await GetConnect().get("$serverURL/users/verify-user",
-          headers: {
-            "Authorization": "Bearer ${deviceStorage.read('accessToken')}"
-          });
+      final response = await GetConnect().get(
+        "$serverURL/users/verify-user",
+        headers: {
+          "Authorization": "Bearer ${deviceStorage.read('accessToken')}",
+        },
+      );
       return response;
     } catch (e) {
       log("Error: $e");
@@ -112,20 +152,24 @@ class AuthenticationRepository extends GetxController {
 
   Future<void> regenerateAccessToken() async {
     try {
-      final response = await GetConnect().post("$serverURL/users/refresh-token",
-          {"refreshToken": deviceStorage.read('refreshToken')});
+      final response = await GetConnect().post(
+        "$serverURL/users/refresh-token",
+        {"refreshToken": deviceStorage.read('refreshToken')},
+      );
       if (response.isOk) {
         deviceStorage.write('accessToken', response.body['accessToken']);
-        await verifyUserWithAccessToken().then((response) {
-          if (response.isOk) {
-            Get.offAll(() => const NavigationMenu());
-          } else {
-            throw response.body['message'];
-          }
-        }).catchError((e) {
-          log("Error: $e");
-          throw "Something went wrong. Please try again.";
-        });
+        await verifyUserWithAccessToken()
+            .then((response) {
+              if (response.isOk) {
+                Get.offAll(() => const NavigationMenu());
+              } else {
+                throw response.body['message'];
+              }
+            })
+            .catchError((e) {
+              log("Error: $e");
+              throw "Something went wrong. Please try again.";
+            });
       } else {
         Get.offAll(() => const LoginScreen());
       }
@@ -142,17 +186,9 @@ class AuthenticationRepository extends GetxController {
   //Logout
   Future<void> logoutUser() async {
     try {
-      final response = await GetConnect().post("$serverURL/users/logout", {},
-          headers: {
-            "Authorization": "Bearer ${deviceStorage.read('accessToken')}"
-          });
-      if (response.isOk) {
-        deviceStorage.remove('accessToken');
-        deviceStorage.remove('refreshToken');
-        Get.offAll(() => const LoginScreen());
-      } else {
-        TLoaders.errorSnackBar(title: response.body['message']);
-      }
+      deviceStorage.remove('accessToken');
+      deviceStorage.remove('refreshToken');
+      Get.offAll(() => const LoginScreen());
     } catch (e) {
       log("Error: $e");
       throw "Something went wrong. Please try again.";
