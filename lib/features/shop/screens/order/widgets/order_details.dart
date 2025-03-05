@@ -1,3 +1,4 @@
+import 'package:ewa_store/common/widgets/appbar/appbar.dart';
 import 'package:ewa_store/features/shop/models/order_model.dart';
 import 'package:ewa_store/utils/constants/colors.dart';
 import 'package:ewa_store/utils/constants/sizes.dart';
@@ -18,7 +19,8 @@ class OrderDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppbar(
+        showBackArrow: true,
         title: Text(
           "Order Details",
           style: Theme.of(context).textTheme.headlineSmall,
@@ -140,11 +142,7 @@ class OrderDetails extends StatelessWidget {
               Card(
                 color: isDark ? TColors.darkContainer : TColors.lightContainer,
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    right: TSizes.defaultSpace,
-                    left: TSizes.defaultSpace,
-                    top: TSizes.defaultSpace,
-                  ),
+                  padding: const EdgeInsets.all(TSizes.defaultSpace),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -182,7 +180,7 @@ class OrderDetails extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: TSizes.spaceBtwItems),
+                              const SizedBox(height: TSizes.spaceBtwItems / 2),
                               Row(
                                 children: [
                                   Text(

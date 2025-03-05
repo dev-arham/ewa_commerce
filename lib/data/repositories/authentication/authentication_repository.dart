@@ -69,8 +69,7 @@ class AuthenticationRepository extends GetxController {
       if (response.isOk) {
         return;
       } else {
-        log("response is not okay");
-        throw response.body['message'];
+        throw "Something went wrong.";
       }
     } catch (e) {
       log("Error: $e");

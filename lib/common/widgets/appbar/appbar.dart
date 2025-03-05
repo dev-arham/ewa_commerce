@@ -1,3 +1,4 @@
+import 'package:ewa_store/utils/constants/colors.dart';
 import 'package:ewa_store/utils/constants/sizes.dart';
 import 'package:ewa_store/utils/device/device_utility.dart';
 import 'package:ewa_store/utils/helpers/helper_functions.dart';
@@ -33,12 +34,15 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                   style: IconButton.styleFrom(
                     backgroundColor:
                         THelperFunctions.isDarkMode(context)
-                            ? Colors.white
-                            : Colors.transparent,
+                            ? TColors.black.withValues(alpha: 0.9)
+                            : TColors.white.withValues(alpha: 0.9),
                   ),
                   icon: Icon(
                     leadingIcon ?? Iconsax.arrow_left,
-                    color: Colors.black,
+                    color:
+                        THelperFunctions.isDarkMode(context)
+                            ? TColors.white
+                            : TColors.black,
                   ),
                   onPressed: onLeadingTap ?? () => Get.back(),
                 )

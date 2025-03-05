@@ -11,7 +11,6 @@ import 'package:ewa_store/utils/constants/sizes.dart';
 import 'package:ewa_store/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 class ProductCardHorizontal extends StatelessWidget {
   final ProductModel product;
@@ -23,9 +22,7 @@ class ProductCardHorizontal extends StatelessWidget {
     final isDark = THelperFunctions.isDarkMode(context);
     return GestureDetector(
       onTap: () {
-        Get.to(() => ProductDetailsScreen(
-              product: product,
-            ));
+        Get.to(() => ProductDetailsScreen(product: product));
       },
       child: Container(
         width: 310,
@@ -55,30 +52,27 @@ class ProductCardHorizontal extends StatelessWidget {
                   product.productDiscountPercentage == '0%'
                       ? const SizedBox.shrink()
                       : Positioned(
-                          top: 4,
-                          left: 4,
-                          child: RoundedContainer(
-                            borderRadius: TSizes.sm,
-                            backgroundColor: TColors.primary,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: TSizes.sm,
-                              vertical: TSizes.xs,
-                            ),
-                            child: Text(
-                              product.productDiscountPercentage,
-                              style:
-                                  Theme.of(context).textTheme.labelLarge!.apply(
-                                        color: TColors.white,
-                                      ),
-                            ),
+                        top: 4,
+                        left: 4,
+                        child: RoundedContainer(
+                          borderRadius: TSizes.sm,
+                          backgroundColor: TColors.primary,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: TSizes.sm,
+                            vertical: TSizes.xs,
+                          ),
+                          child: Text(
+                            product.productDiscountPercentage,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelLarge!.apply(color: TColors.white),
                           ),
                         ),
+                      ),
                   Positioned(
                     top: 4,
                     right: 4,
-                    child: FavoriteIcon(
-                      productId: product.id,
-                    ),
+                    child: FavoriteIcon(productId: product.id),
                   ),
                 ],
               ),
@@ -86,53 +80,30 @@ class ProductCardHorizontal extends StatelessWidget {
             SizedBox(
               width: 180,
               child: Padding(
-                padding: const EdgeInsets.only(top: TSizes.sm, left: TSizes.sm),
+                padding: const EdgeInsets.all(TSizes.sm),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ProductTitleText(
-                          title: product.name,
-                          smallSize: true,
-                        ),
+                        ProductTitleText(title: product.name, smallSize: false),
                         const SizedBox(height: TSizes.spaceBtwItems / 2),
                         BrandTitleTextWithVerifiedIcon(
-                            title: product.proBrand.name),
+                          title: product.proBrand.name,
+                        ),
                         const SizedBox(height: TSizes.spaceBtwItems / 2),
                       ],
                     ),
-                    const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                            child: ProductPriceText(
-                                price: product.offerPrice.toString())),
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: TColors.black,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(TSizes.cardRadiusMd),
-                              bottomRight:
-                                  Radius.circular(TSizes.productImageRadius),
-                            ),
-                          ),
-                          child: const SizedBox(
-                            width: TSizes.iconLg * 1.2,
-                            height: TSizes.iconLg * 1.2,
-                            child: Center(
-                              child: Icon(Iconsax.add, color: TColors.light),
-                            ),
-                          ),
-                        )
-                      ],
-                    )
+                    Expanded(
+                      child: ProductPriceText(
+                        price: product.offerPrice.toString(),
+                      ),
+                    ),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
